@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { recordAndExport } from "../utils/audio";
-//import { transcribeAudio } from "../utils/stt";
+import { transcribeAudio } from "../utils/stt";
 
 export default function Home() {
-  //const [transcript, setTranscript] = useState("");
+  const [transcript, setTranscript] = useState("");
   const [audioURL, setAudioURL] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -13,8 +13,8 @@ export default function Home() {
       const blob = await recordAndExport();
       setAudioURL(URL.createObjectURL(blob));
 
-      //const text = await transcribeAudio(blob);
-      //setTranscript(text);
+      const text = await transcribeAudio(blob);
+      setTranscript(text);
     } catch (err) {
       console.error(err);
     }
@@ -37,6 +37,8 @@ export default function Home() {
       )}
 
       <h2>📝 Transcript</h2>
+      <p>{transcript || "No transcript available."}</p>
+    
     </main>
   );
 }
